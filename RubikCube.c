@@ -1,6 +1,6 @@
 #include <stdio.h>
 #ifndef N
-#define N 5
+#define N 10
 #endif
 
 void generate(int a[][N][N]) {// funkcja zapelnia kostke podanymi liczbami-kolorami
@@ -45,7 +45,7 @@ void print(int a[][N][N]) {  // funkcja wypisujaca cala kostke
     printBaseWalls(a, 5);
 }
 
-void transposition(int a[][N][N], int side) {  // funkcja robiÄ…ca transpozycje danej sciany
+void transposition(int a[][N][N], int side) {  // funkcja robiąca transpozycje danej sciany
     int b[N][N]={0};
     int i=0;
     int j=0;
@@ -143,22 +143,61 @@ void read(int a[][N][N]) {  // funkcja odczytujaca input
     int c=0;
     int side=0;
     int layer=0;
-    int times=0;
-    if(c!='.' && c!='\n' && c!=EOF) {
-        c=getchar();
-        if(c=='u') side=0;
-        else if(c=='l') side==1;
-        else if(c=='f') side==2;
-        else if(c=='r') side==3;
-        else if(c=='b') side==4;
-        else if(c=='d') side==5;
+    int layervar=0;  // licznik sprawdzajacy czy zostala podana liczba warstw
+    int times=1;
+    while(c!='.') {
+        while(c!='.') {
+            if(c=='\n') print(a);
+            if(c=='u') side=0;
+            else if(c=='l') side=1;
+            else if(c=='f') side=2;
+            else if(c=='r') side=3;
+            else if(c=='b') side=4;
+            else if(c=='d') side=5;
+            else layervar=-1;
+            if(c!='.') {
+                c=getchar();
+                if(c=='\'') {
+                    times=3;
+                    c=getchar();
+                }
+                else if(c=='"') {
+                    times=2;
+                    c=getchar();
+                }
+                else {
+                    while(c=='0' || c=='1' || c=='2' || c=='3' || c=='4' || c=='5' || c=='6' || c=='7' || c=='8' ||
+                           c=='9') {
+                        layer=(c-48)+layer*10;  // "-48" ze wzgledu na kod ASCI cyfr 0-9
+                        c=getchar();
+                        layervar++;
+                    }
+                }
+                if(c=='\'') {
+                    times=3;
+                    c=getchar();
+                }
+                else if(c=='\"') {
+                    times=2;
+                    c=getchar();
+                }
+                if(layervar==0) layer=1;
+                move(a, side, layer, times);
+                if(c=='\n') {
+                    print(a);
+                    c=getchar();
+                }
+                layervar=layer=side=0;
+                times=1;
+            }
+        }
     }
-    c=getchar();
 }
 
 int main(void)
 {
     int RubikCube[6][N][N];
     generate(RubikCube);
+    read(RubikCube);
     return 0;
 }
