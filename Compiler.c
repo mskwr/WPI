@@ -37,24 +37,14 @@ int *analize(int *tab, int *i, int *size, int *cell, int c, int *line) {
                 tab[*i]=50;
             }
             else if(c=='+') {
-                if(var==0) {
-                    tab[*i]=1;
-                    (*line)++;
-                }
-                else {
-                    tab[*i]=3;
-                    (*line)++;
-                }
+                if(var==0) tab[*i]=1;
+                else tab[*i]=3;
+                (*line)++;
             }
             else if(c=='-') {
-                if(var==0) {
-                    tab[*i]=0;
-                    (*line)++;
-                }
-                else {
-                    tab[*i]=2;
-                    (*line)++;
-                }
+                if(var==0) tab[*i]=0;
+                else tab[*i]=2;
+                (*line)++;
             }
             else if(c=='{') {
                 if(var==0) {
@@ -62,21 +52,23 @@ int *analize(int *tab, int *i, int *size, int *cell, int c, int *line) {
                     (*i)++;
                     (*line)++;
                     tab=analize(tab, i, size, cell, c, line);
+                    (*line)--;
                     tab[*i]=6;
-                    (*line)++;
                     (*i)++;
+                    (*line)++;
                     c=load();
                     tab=analize(tab, i, size, cell, c, line);
                     (*i)--;
+                    (*line)--;
                 }
                 else {
                     tab[*i]=5;
-                    (*line)++;
                     (*i)++;
+                    (*line)++;
                     tab=analize(tab, i, size, cell, c, line);
                     tab[*i]=6;
-                    (*line)++;
                     (*i)++;
+                    (*line)++;
                     c=load();
                     tab=analize(tab, i, size, cell, c, line);
                     (*i)--;
@@ -84,8 +76,8 @@ int *analize(int *tab, int *i, int *size, int *cell, int c, int *line) {
             }
             else if(c>='A' && c<='Z') {
                 tab[*i]=7;
-                (*line)++;
                 (*i)++;
+                (*line)++;
                 tab[*i]=-200-c;
             }
             (*i)++;
@@ -97,13 +89,11 @@ int *analize(int *tab, int *i, int *size, int *cell, int c, int *line) {
     return tab;
 }
 
-int *compile(int *size, int *line) {
+int *compile(int *size, int *line, int *stack) {
     int *tab=NULL;
-    int stack[27]={0};
     int i=0;
     int c=0;
     int cell=0;
-    for(i=0; i<27; i++) stack[i]=-1;
     for(i=0; (c=load())!=EOF; i++) {
         if(i>=cell) {
             cell=1+cell*2;;
@@ -127,12 +117,13 @@ int *compile(int *size, int *line) {
 }
 
 void read() {
-    int i=0;
+    int j=0;
+    int stack[27];
     int line=1;
     int size=0;
-    int *compiler=compile(&size, &line);
-    for(i=0; i<=size; i++) printf("%d", compiler[i]);
-    free(compiler);
+    for(j=0; j<size; j++) stack[j]=-1;
+    int *compiler=compile(&size, &line, stack);
+    printf("6 %d\n", stack[26]);
 }
 
 int main(void)
