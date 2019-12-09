@@ -118,6 +118,7 @@ int *compile(int *size, int *line, int *stack) {
 
 void read() {
     int j=0;
+    int ja=0;
     int k=1;
     int ka=1;
     int stack[27];
@@ -141,9 +142,10 @@ void read() {
             }
             else if(comp[j]==4) {
                 ka=k;
-                while(comp[j]!=6) {
-                    if(comp[j]>=0 && comp[j]<=9) ka++;
-                    j++;
+                ja=j;
+                while(comp[ja]!=6) {
+                    if(comp[ja]>=0 && comp[ja]<=9) ka++;
+                    ja++;
                 }
                 printf("4 %d %d\n", ka+1, pom-100);
                 k++;
@@ -159,9 +161,39 @@ void read() {
                 }
                 j--;
             }
-            else if(comp[j]==5) 
+            else if(comp[j]==5) {
+                ka=k;
+                ja=j;
+                while(comp[ja]!=6) {
+                    if(comp[ja]>=0 && comp[ja]<=9) ka++;
+                    ja++;
+                }
+                printf("5 %d\n", ka+1);
+                k++;
+            }
+        }
+        else if(comp[j]==6) {
+            ka=k;
+            ja=j;
+            while(comp[ja]!=8) {
+                if(comp[ja]>=0 && comp[ja]<=9) ka++;
+                ja++;
+            }
+            printf("6 %d\n", ka);
+            k++;
+        }
+        else if(comp[j]==8 && k!=line) {
+            printf("8\n");
+            k++;
+        }
+        else if(comp[j]==7) {
+            j++;
+            printf("7 %d\n", stack[comp[j]*(-1)-265]);
+            k++;
         }
     }
+    printf("9\n");
+    free(comp);
 }
 
 int main(void)
