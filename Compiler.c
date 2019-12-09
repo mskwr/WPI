@@ -20,10 +20,9 @@ int load() {
     return c;
 }
 
-int *analize(int *tab, int *i, int *size, int *cell) {
-    int c=0;
+int *analize(int *tab, int *i, int *size, int *cell, int c) {
     int var=0;
-    if((c=load())=='{') {
+    if(c=='{') {
         while((c=load())!='}') {
             if(*i>=*cell) {
                 *cell=1+*cell*2;;
@@ -48,16 +47,18 @@ int *analize(int *tab, int *i, int *size, int *cell) {
             else if(c=='{') {
                 if(var==0) {
                     tab[*i]=4;
-                    tab=analize(tab, i, size, cell);
+                    tab=analize(tab, i, size, cell, c);
                     tab[*i]=6;
-                    tab=analize(tab, i, size, cell);
+                    c=load();
+                    tab=analize(tab, i, size, cell, c);
                     (*i)--;
                 }
                 else {
                     tab[*i]=5;
-                    tab=analize(tab, i, size, cell);
+                    tab=analize(tab, i, size, cell, c);
                     tab[*i]=6;
-                    tab=analize(tab, i, size, cell);
+                    c=load();
+                    tab=analize(tab, i, size, cell, c);
                     (*i)--;
                 }
             }
@@ -88,13 +89,12 @@ int *compile(int *size) {
             tab[i]=-100-c;
             i++;
             c=load();
-            tab=analize(tab, &i, size, &cell);
+            tab=analize(tab, &i, size, &cell, c);
         }
         else {
             tab[i]=-1000;
             i++;
-            c=load();
-            tab=analize(tab, &i, size, &cell);
+            tab=analize(tab, &i, size, &cell, c);
         }
     }
     return tab;
