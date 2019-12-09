@@ -47,16 +47,20 @@ int *analize(int *tab, int *i, int *size, int *cell, int c) {
             else if(c=='{') {
                 if(var==0) {
                     tab[*i]=4;
+                    (*i)++;
                     tab=analize(tab, i, size, cell, c);
                     tab[*i]=6;
+                    (*i)++;
                     c=load();
                     tab=analize(tab, i, size, cell, c);
                     (*i)--;
                 }
                 else {
                     tab[*i]=5;
+                    (*i)++;
                     tab=analize(tab, i, size, cell, c);
                     tab[*i]=6;
+                    (*i)++;
                     c=load();
                     tab=analize(tab, i, size, cell, c);
                     (*i)--;
