@@ -23,9 +23,9 @@ int load() {
 int *analize(int *tab, int *i, int *size, int *cell) {
     int c=0;
     int var=0;
-    if((c=load())=='{') {
+    if(c=='{') {
         while((c=load())!='}') {
-            if(i==cell) {
+            if(*i>=*cell) {
                 *cell=1+*cell*2;;
                 tab=realloc(tab, *cell * sizeof *tab);
             }
@@ -48,29 +48,28 @@ int *analize(int *tab, int *i, int *size, int *cell) {
             else if(c=='{') {
                 if(var==0) {
                     tab[*i]=4;
-                    i++;
                     tab=analize(tab, i, size, cell);
                     tab[*i]=6;
                     tab=analize(tab, i, size, cell);
+                    (*i)--;
                 }
                 else {
                     tab[*i]=5;
-                    i++;
                     tab=analize(tab, i, size, cell);
                     tab[*i]=6;
                     tab=analize(tab, i, size, cell);
+                    (*i)--;
                 }
             }
             else if(c>='A' && c<='Z') {
                 tab[*i]=7;
-                i++;
+                (*i)++;
                 tab[*i]=-200-c;
             }
-            i++;
-            tab[*i]=8;
-            i++;
-            *size=*i;
+            (*i)++;
         }
+        tab[*i]=8;
+        *size=*i;
     }
     return tab;
 }
@@ -81,18 +80,20 @@ int *compile(int *size) {
     int c=0;
     int cell=0;
     for(i=0; (c=load())!=EOF; i++) {
-        if(i==cell) {
+        if(i>=cell) {
             cell=1+cell*2;;
             tab=realloc(tab, cell * sizeof *tab);
         }
         if(c>='A' && c<='Z') {
             tab[i]=-100-c;
             i++;
+            c=load();
             tab=analize(tab, &i, size, &cell);
         }
         else {
             tab[i]=-1000;
             i++;
+            c=load();
             tab=analize(tab, &i, size, &cell);
         }
     }
@@ -103,7 +104,7 @@ int main(void)
 {
     int size=0;
     int *compiler=compile(&size);
-    for(int i=0; i<size; i++) printf("%d", compiler[i]);
+    for(int i=0; i<size; i++) printf("%d ", compiler[i]);
     free(compiler);
     return 0;
 }
