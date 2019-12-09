@@ -118,12 +118,50 @@ int *compile(int *size, int *line, int *stack) {
 
 void read() {
     int j=0;
+    int k=1;
+    int ka=1;
     int stack[27];
     int line=1;
     int size=0;
-    for(j=0; j<size; j++) stack[j]=-1;
-    int *compiler=compile(&size, &line, stack);
+    int pom=0;
+    for(j=0; j<27; j++) stack[j]=-1;
+    int *comp=compile(&size, &line, stack);
     printf("6 %d\n", stack[26]);
+    for(j=0; j<size; j++) {
+        if(comp[j]>=100 && comp[j]<200) {
+            pom=comp[j];
+            j++;
+            if(comp[j]==0 || comp[j]==1) {
+                while(comp[j]==0 || comp[j]==1) {
+                    printf("%d %d\n", comp[j], pom-100);
+                    j++;
+                    k++;
+                }
+                j--;
+            }
+            else if(comp[j]==4) {
+                ka=k;
+                while(comp[j]!=6) {
+                    if(comp[j]>=0 && comp[j]<=9) ka++;
+                    j++;
+                }
+                printf("4 %d %d\n", ka+1, pom-100);
+                k++;
+            }
+        }
+        else if(comp[j]==50) {
+            j++;
+            if(comp[j]==2 || comp[j]==3) {
+                while(comp[j]==2 || comp[j]==3) {
+                    printf("%d\n", comp[j]);
+                    j++;
+                    k++;
+                }
+                j--;
+            }
+            else if(comp[j]==5) 
+        }
+    }
 }
 
 int main(void)
