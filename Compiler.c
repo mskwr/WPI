@@ -23,7 +23,7 @@ int load() {
 int *analize(int *tab, int *i, int *size, int *cell) {
     int c=0;
     int var=0;
-    if(c=='{') {
+    if((c=load())=='{') {
         while((c=load())!='}') {
             if(*i>=*cell) {
                 *cell=1+*cell*2;;
