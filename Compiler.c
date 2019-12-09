@@ -8,43 +8,20 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-/**
- * Funkcja wczytujaca znaczace znaki programu, ktora przekazuje je
- * do dynamicznie alokowanej tablicy charow
- *
- * Argumenty:
- * *size - rozmiar powstalej tablicy
- */
-
-char *load(int *size) {
-    char *tab=NULL;
-    int cell=0;
-    int i=0;
-    int j=0;
+int load() {
     int c=0;
-    for(i=0; (c=getchar())!=EOF; i++) {
-        if(j>=cell) {
-            cell+=sizeof(char);
-            tab=realloc(tab, cell);
+    int var=0;
+    while(var==0 && (c=getchar())!=EOF) {
+        if (c==';') {
+            while((c=getchar())!='\n');
         }
-        if(c==';') {
-            while((c=getchar())!='\n') i++;
-        }
-        if(c=='\n' || c=='\t' || c==' ');
-        else {
-            tab[j]=c;
-            j++;
-        }
+        else if(c!='\n' && c!='\t' && c!=' ') var=1;
     }
-    *size=j;
-    return tab;
+    return c;
 }
 
 int main(void)
 {
-    int size;
-    char *program=load(&size);
-    for(int i=0; i<size; i++) printf("%c", program[i]);
-    free(program);
+    int cell=0;
     return 0;
 }
