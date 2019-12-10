@@ -21,7 +21,7 @@ int load() {
 }
 
 int *analize(int *tab, int *i, int *size, int *cell, int c, int *line) {
-    int var=0;
+    int var1=0;
     if(c=='{') {
         while((c=load())!='}') {
             if(*i>=*cell) {
@@ -29,25 +29,25 @@ int *analize(int *tab, int *i, int *size, int *cell, int c, int *line) {
                 tab=realloc(tab, *cell * sizeof *tab);
             }
             if(c>='a' && c<='z') {
-                var=0;
+                var1=0;
                 tab[*i]=c+3;
             }
             else if(c=='$') {
-                var=1;
+                var1=1;
                 tab[*i]=50;
             }
             else if(c=='+') {
-                if(var==0) tab[*i]=1;
+                if(var1==0) tab[*i]=1;
                 else tab[*i]=3;
                 (*line)++;
             }
             else if(c=='-') {
-                if(var==0) tab[*i]=0;
+                if(var1==0) tab[*i]=0;
                 else tab[*i]=2;
                 (*line)++;
             }
             else if(c=='{') {
-                if(var==0) {
+                if(var1==0) {
                     tab[*i]=4;
                     (*i)++;
                     (*line)++;
@@ -58,21 +58,20 @@ int *analize(int *tab, int *i, int *size, int *cell, int c, int *line) {
                     (*line)++;
                     c=load();
                     tab=analize(tab, i, size, cell, c, line);
-                    (*i)--;
-                    (*line)--;
                 }
                 else {
                     tab[*i]=5;
                     (*i)++;
                     (*line)++;
                     tab=analize(tab, i, size, cell, c, line);
+                    (*line)--;
                     tab[*i]=6;
                     (*i)++;
                     (*line)++;
                     c=load();
                     tab=analize(tab, i, size, cell, c, line);
-                    (*i)--;
                 }
+                (*line)--;
             }
             else if(c>='A' && c<='Z') {
                 tab[*i]=7;
@@ -82,8 +81,7 @@ int *analize(int *tab, int *i, int *size, int *cell, int c, int *line) {
             }
             (*i)++;
         }
-        tab[*i]=8;
-        (*line)++;
+        tab[*i]=800;
         *size=*i;
     }
     return tab;
@@ -112,6 +110,8 @@ int *compile(int *size, int *line, int *stack) {
             i++;
             tab=analize(tab, &i, size, &cell, c, line);
         }
+        i++;
+        tab[i]=8;
     }
     return tab;
 }
@@ -175,7 +175,7 @@ void read() {
         else if(comp[j]==6) {
             ka=k;
             ja=j;
-            while(comp[ja]!=8) {
+            while(comp[ja]!=8 && comp[ja]!=800) {
                 if(comp[ja]>=0 && comp[ja]<=9) ka++;
                 ja++;
             }
