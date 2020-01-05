@@ -48,7 +48,7 @@ int *analize(int *tab, int *i, int *size, int *cell, int c, int *line) {
     if(c=='{') {
         while((c=load())!='}') {
             if(*i>=*cell) {
-                *cell=1+*cell*2;;
+                *cell=1+*cell*2;
                 tab=realloc(tab, *cell * sizeof *tab);
             }
             if(c>='a' && c<='z') {
