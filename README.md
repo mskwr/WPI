@@ -1,5 +1,5 @@
 # WPI
-Wstęp do programowania imperatywnego.
+Wstęp do programowania - potok imperatywny.
 
 Zawiera zadania:
 1. RubikCube - implementację kostki rubika.
