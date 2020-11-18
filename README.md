@@ -1,6 +1,7 @@
-# wpi
-projekty na laboratoria z WPI
+# WPI
+Wstęp do programowania imperatywnego.
 
-Tutaj zamieściłem wszystkie studenckie zadania zaliczeniowe, które z przyjemnością zrobiłem na laboratoria
-z WPI - wstępu do programowania imperatywnego, podczas pierwszego semestru nauki na kierunku
-Informatyka na Wydziale Matematyki, Informatyki i Mechaniki (MIM) Uniwersytetu Warszawskiego.
+Zawiera zadania:
+1. RubikCube - implementację kostki rubika.
+2. Compiler - prosty kompilator dla zadanego interpretera.
+3. SokoBan - implementację gry sokoban.
